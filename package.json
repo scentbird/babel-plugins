@@ -1,6 +1,10 @@
 {
   "name": "babel-plugin-name",
   "version": "1.0.0",
+  "scripts": {
+    "test:pivanov-1": "node ./plugins/pivanov-1/test/index.js",
+    "test:aleksei0807": "node ./plugins/aleksei0807/test/index.js"
+  },
   "devDependencies": {
     "@babel/core": "^7.0.0-beta.51",
     "@babel/register": "^7.0.0-beta.51",
