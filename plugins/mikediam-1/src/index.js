@@ -1,12 +1,10 @@
 export default function ({ types: t }) {
-  const memberExpressionType      = 'MemberExpression'
-  const assignmentExpressionType  = 'AssignmentExpression'
 
   const transformObject = (node) => {
     const { object, type, left, right } = node
 
-    if (type === memberExpressionType) {
-      const isObjectExpression = object.type === memberExpressionType
+    if (t.isMemberExpression(node)) {
+      const isObjectExpression = t.isMemberExpression(object.type)
       const updatedObject = isObjectExpression ? transformObject(object) : object
 
       return t.LogicalExpression(
@@ -15,7 +13,7 @@ export default function ({ types: t }) {
         node,
       )
     }
-    else if (type === assignmentExpressionType) {
+    else if (t.isAssignmentExpression(node)) {
       const updatedRight = transformObject(right)
 
       return t.assignmentExpression(
