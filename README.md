@@ -20,3 +20,33 @@ const foo = ({ a, b } = {}) => {}
 ### [LINK](plugins/pivanov-1)
 
 ---
+
+Input:
+
+```
+const bar = foo.bar;
+
+const zoo = foo.bar.zoo;
+
+let asd = foo.bar.asd,
+    asd2 = foo.bar2;
+
+asd = foo.bar.zoo.asd;
+```
+
+Output:
+
+```
+const bar = foo && foo.bar;
+
+const zoo = foo && foo.bar && foo.bar.zoo;
+
+let asd = foo && foo.bar && foo.bar.asd,
+    asd2 = foo && foo.bar2;
+
+asd = foo && foo.bar && foo.bar.zoo && foo.bar.zoo.asd;
+```
+
+### [LINK](plugins/mikediam-1)
+
+---
