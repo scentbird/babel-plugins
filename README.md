@@ -20,3 +20,20 @@ const foo = ({ a, b } = {}) => {}
 ### [LINK](plugins/pivanov-1)
 
 ---
+
+Input:
+
+```
+const foo = 2, bar = 'a' , { aaa: { bbb }, ccc } = { a }
+```
+
+Output:
+
+```
+// foo = 2, bar = 'a' , { aaa: { bbb }, ccc } = { a }
+const foo = 2
+```
+
+### [LINK](plugins/ivashev)
+
+---
