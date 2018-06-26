@@ -67,3 +67,88 @@ asd = foo && foo.bar && foo.bar.zoo && foo.bar.zoo.asd;
 ### [LINK](plugins/mikediam-1)
 
 ---
+
+Input:
+
+```
+let empty1;
+var empty0;
+
+// singular
+const foo = 1;
+let bar = '1';
+var baz = null;
+
+// group
+const
+  foo1 = {},
+  bar1 = [],
+  baz1 = foo1 = bar1 = { foobarbaz: 123 };
+
+let
+  foo2 = new Date(),
+  bar2 = Date,
+  baz2 = window;
+
+var
+  foo3 = 1,
+  bar3 = /2/,
+  baz3 = /3/g;
+
+```
+
+Output:
+
+```
+// empties
+// const empty0; const cannot be empty
+let empty1;
+var empty0;
+
+// singular
+const foo = {
+foo: 1
+};
+let bar = {
+bar: '1'
+};
+var baz = {
+baz: null
+};
+
+// group
+const
+foo1 = {},
+bar1 = {
+  bar1: []
+},
+baz1 = {
+  baz1: foo1 = bar1 = { foobarbaz: 123 }
+};
+
+let
+foo2 = {
+  foo2: new Date()
+},
+bar2 = {
+  bar2: Date
+},
+baz2 = {
+  baz2: window
+};
+
+var
+foo3 = {
+  foo3: 1
+},
+bar3 = {
+  bar3: /2/
+},
+baz3 = {
+  baz3: /3/g
+};
+```
+
+### [LINK](plugins/s3rious-1)
+
+---
