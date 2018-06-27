@@ -1,45 +1,28 @@
 export default function ({ types: t }) {
 
   const transformObject = (node) => {
-    const { object, type, left, right } = node
+    const { object } = node
 
-    if (t.isMemberExpression(node)) {
-      const isObjectExpression = t.isMemberExpression(object.type)
-      const updatedObject = isObjectExpression ? transformObject(object) : object
+    const isObjectMemberExpression = t.isMemberExpression(object)
 
-      return t.LogicalExpression(
-        '&&',
-        updatedObject,
-        node,
-      )
-    }
-    else if (t.isAssignmentExpression(node)) {
-      const updatedRight = transformObject(right)
-
-      return t.assignmentExpression(
-        '=',
-        left,
-        updatedRight
-      )
-    }
-    else {
-      return node
-    }
+    return t.LogicalExpression(
+      '&&',
+      isObjectMemberExpression ? transformObject(object) : object,
+      node,
+    )
   }
 
   return {
+
     visitor: {
 
-      VariableDeclaration: (path) => {
-        path.node.declarations.forEach(({ init }, index) => {
-          path.node.declarations[index].init = transformObject(init)
-        })
-      },
+      MemberExpression: (path) => {
+        const isParentLogicalExp  = t.isLogicalExpression(path.parent)
+        const isParentMemberExp   = t.isMemberExpression(path.parent)
 
-      ExpressionStatement: (path) => {
-        const { node: { expression } } = path
-
-        path.node.expression = transformObject(expression)
+        if (!isParentLogicalExp && !isParentMemberExp) {
+          path.replaceWith(transformObject(path.node))
+        }
       }
     }
   }
