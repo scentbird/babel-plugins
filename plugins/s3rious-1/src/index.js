@@ -6,21 +6,21 @@ export default function ({ types: t }) {
         const { node: { id, init } } = path
         
         if (init) {
-          const { type } = init
-  
-          if (type !== 'ObjectExpression') {
-            path.replaceWith(
-              t.variableDeclarator(
-                id,
-                t.objectExpression([
-                  t.objectProperty(
-                    t.identifier(id.name),
-                    init,
-                  )
-                ])
-              )
-            )
+          if (t.isObjectExpression(init)) {
+            return null
           }
+          
+          path.replaceWith(
+            t.variableDeclarator(
+              id,
+              t.objectExpression([
+                t.objectProperty(
+                  id,
+                  init,
+                )
+              ])
+            )
+          )
         }
       }
     }
