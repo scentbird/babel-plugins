@@ -3,9 +3,11 @@ export default function ({ types: t }) {
   const transformObject = (node) => {
     const { object } = node
 
+    const isObjectMemberExpression = t.isMemberExpression(object)
+
     return t.LogicalExpression(
       '&&',
-      object,
+      isObjectMemberExpression ? transformObject(object) : object,
       node,
     )
   }
